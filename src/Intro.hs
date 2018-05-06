@@ -4,6 +4,8 @@ module Intro
   , checkPalindrome
   ) where
 
+import Data.List
+
 add :: Integer -> Integer -> Integer
 add = (+)
 

@@ -1,13 +1,19 @@
 module SmoothSailing
   ( allLongestStrings
+  , commonCharacterCount
+  , isLucky
+  , sortByHeight
+  , reverseParentheses
   ) where
 
-allLongestStrings :: Foldable t => [t a] -> [t a]
+import Data.List
+
+allLongestStrings :: [String] -> [String]
 allLongestStrings inputArray = filter ((== maxLen) . length) inputArray
   where
     maxLen = maximum $ map length inputArray
 
-commonCharacterCount :: (Foldable t, Eq p, Num b) => [p] -> t p -> b
+commonCharacterCount :: String -> String -> Int
 commonCharacterCount s1 s2 =
   snd $
   foldl
@@ -27,7 +33,7 @@ removeFrom c s = f [] s
         then Just (xs ++ ys)
         else f (y : xs) ys
 
-isLucky :: Show p => p -> Bool
+isLucky :: Int -> Bool
 isLucky n = even lenN && f firstHalf == f secondHalf
   where
     strN = show n
@@ -48,3 +54,34 @@ digitToInt '7' = 7
 digitToInt '8' = 8
 digitToInt '9' = 9
 digitToInt c = error (c : " is not a digit")
+
+sortByHeight :: [Int] -> [Int]
+sortByHeight a = insertIntoTreesWithInterval trees $ sort nums
+  where
+    trees = treesWithInterval a
+    nums = filter (/= -1) a
+
+treesWithInterval :: [Int] -> [Int]
+treesWithInterval a =
+  group a >>= \x ->
+    if head x == -1
+      then x
+      else [length x]
+
+insertIntoTreesWithInterval :: [Int] -> [Int] -> [Int]
+insertIntoTreesWithInterval ts [] = ts
+insertIntoTreesWithInterval [] _ = []
+insertIntoTreesWithInterval (t:ts) as
+  | t == -1 = t : insertIntoTreesWithInterval ts as
+  | otherwise = take t as ++ insertIntoTreesWithInterval ts (drop t as)
+
+reverseParentheses :: [Char] -> [Char]
+reverseParentheses [] = []
+reverseParentheses ('(':cs) = reverseParentheses $ inParens [] cs
+reverseParentheses (c:cs) = c : reverseParentheses cs
+
+inParens :: [Char] -> [Char] -> [Char]
+inParens acc [] = acc
+inParens acc ('(':cs) = inParens acc $ inParens [] cs
+inParens acc (')':cs) = reverse acc ++ cs
+inParens acc (c:cs) = inParens (acc ++ [c]) cs

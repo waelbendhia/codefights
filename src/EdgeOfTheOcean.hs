@@ -28,7 +28,7 @@ makeArrayConsecutive2 statues =
     l = sort statues
 
 -- Probably a bunch of redundancies here but whatever
-almostIncreasingSequence :: Ord a => [a] -> Bool
+almostIncreasingSequence :: [Integer] -> Bool
 almostIncreasingSequence seq = almostIncreasing seq || increasing (tail seq)
 
 almostIncreasing :: Ord a => [a] -> Bool
