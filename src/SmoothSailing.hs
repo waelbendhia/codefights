@@ -83,5 +83,5 @@ reverseParentheses (c:cs) = c : reverseParentheses cs
 inParens :: [Char] -> [Char] -> [Char]
 inParens acc [] = acc
 inParens acc ('(':cs) = inParens acc $ inParens [] cs
-inParens acc (')':cs) = reverse acc ++ cs
-inParens acc (c:cs) = inParens (acc ++ [c]) cs
+inParens acc (')':cs) = acc ++ cs
+inParens acc (c:cs) = inParens (c : acc) cs

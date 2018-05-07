@@ -1,15 +1,22 @@
 module Main where
 
+import DarkWilderness
 import Data.Maybe
+import DivingDeeper
 import EdgeOfTheOcean
 import ExploringTheWaters
 import Intro
 import IslandOfKnowledge
+import RainsOfReason
 import SmoothSailing
 import Text.Read
+import ThroughTheFog
 
-superUncurry :: (t1 -> t2 -> t3 -> t4 -> t5) -> ((t1, t2), (t3, t4)) -> t5
-superUncurry f = \((a, b), (c, d)) -> f a b c d
+uncurry4 :: (t1 -> t2 -> t3 -> t4 -> t5) -> (t1, t2, t3, t4) -> t5
+uncurry4 f = \(a, b, c, d) -> f a b c d
+
+uncurry3 :: (t1 -> t2 -> t3 -> t4) -> (t1, t2, t3) -> t4
+uncurry3 f = \(a, b, c) -> f a b c
 
 toInputReader :: (Read a2, Show a1) => (a2 -> a1) -> String -> Maybe String
 toInputReader f = (>>= Just . show . f) . readMaybe
@@ -33,10 +40,26 @@ problems =
   , toInputReader $ uncurry areSimilar
   , toInputReader $ arrayChange
   , toInputReader $ palindromeRearranging
-  , toInputReader $ superUncurry areEquallyStrong
+  , toInputReader $ uncurry4 areEquallyStrong
   , toInputReader $ arrayMaximalAdjacentDifference
   , toInputReader $ isIPv4Address
   , toInputReader $ avoidObstacles
+  , toInputReader $ boxBlur
+  , toInputReader $ minesweeper
+  , toInputReader $ uncurry3 arrayReplace
+  , toInputReader $ evenDigitsOnly
+  , toInputReader $ variableName
+  , toInputReader $ alphabeticShift
+  , toInputReader $ uncurry chessBoardCellColor
+  , toInputReader $ uncurry circleOfNumbers
+  , toInputReader $ uncurry3 depositProfit
+  , toInputReader $ absoluteValuesSumMinimization
+  , toInputReader $ stringsRearrangement
+  , toInputReader $ uncurry extractEachKth
+  , toInputReader $ firstDigit
+  , toInputReader $ differentSymbolsNaive
+  , toInputReader $ uncurry arrayMaxConsecutiveSum
+  , toInputReader $ uncurry3 growingPlant
   ]
 
 main :: IO ()
