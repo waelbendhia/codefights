@@ -3,7 +3,10 @@ module ExploringTheWaters
   , addBorder
   , areSimilar
   , arrayChange
+  , palindromeRearranging
   ) where
+
+import Data.List
 
 alternatingSums :: Num a => [a] -> [a]
 alternatingSums [] = [0, 0]
@@ -30,8 +33,12 @@ areSimilar a b = cond
 arrayChange :: (Num a, Ord a) => [a] -> a
 arrayChange [] = 0
 arrayChange [_] = 0
-arrayChange (x1:x2:xs) =
-  if x1 < x2
-    then arrayChange (x2 : xs)
-    else let dif = x1 - x2 + 1
-         in dif + arrayChange (x2 + dif : xs)
+arrayChange (x1:x2:xs) = dif + arrayChange (x2 + dif : xs)
+  where
+    dif = max (x1 - x2 + 1) 0
+
+palindromeRearranging :: String -> Bool
+palindromeRearranging inputString = numOdd <= 1
+  where
+    occurences = map length $ group $ sort inputString
+    numOdd = length $ filter odd occurences

@@ -1,39 +1,52 @@
 module Main where
 
+import Data.Maybe
 import EdgeOfTheOcean
 import ExploringTheWaters
 import Intro
+import IslandOfKnowledge
 import SmoothSailing
 import Text.Read
 
-problems :: [String -> String]
+superUncurry :: (t1 -> t2 -> t3 -> t4 -> t5) -> ((t1, t2), (t3, t4)) -> t5
+superUncurry f = \((a, b), (c, d)) -> f a b c d
+
+toInputReader :: (Read a2, Show a1) => (a2 -> a1) -> String -> Maybe String
+toInputReader f = (>>= Just . show . f) . readMaybe
+
 problems =
-  [ show . uncurry add . read
-  , show . centuryFromYear . read
-  , show . checkPalindrome
-  , show . adjacentElementsProduct . read
-  , show . shapeArea . read
-  , show . makeArrayConsecutive2 . read
-  , show . almostIncreasingSequence . read
-  , show . matrixElementsSum . read
-  , show . allLongestStrings . read
-  , show . uncurry commonCharacterCount . read
-  , show . isLucky . read
-  , show . sortByHeight . read
-  , show . reverseParentheses . read
-  , show . alternatingSums . read
-  , show . addBorder . read
-  , show . uncurry areSimilar . read
-  , show . arrayChange . read
+  [ toInputReader $ uncurry add
+  , toInputReader $ centuryFromYear
+  , toInputReader $ checkPalindrome
+  , toInputReader $ adjacentElementsProduct
+  , toInputReader $ shapeArea
+  , toInputReader $ makeArrayConsecutive2
+  , toInputReader $ almostIncreasingSequence
+  , toInputReader $ matrixElementsSum
+  , toInputReader $ allLongestStrings
+  , toInputReader $ uncurry commonCharacterCount
+  , toInputReader $ isLucky
+  , toInputReader $ sortByHeight
+  , toInputReader $ reverseParentheses
+  , toInputReader $ alternatingSums
+  , toInputReader $ addBorder
+  , toInputReader $ uncurry areSimilar
+  , toInputReader $ arrayChange
+  , toInputReader $ palindromeRearranging
+  , toInputReader $ superUncurry areEquallyStrong
+  , toInputReader $ arrayMaximalAdjacentDifference
+  , toInputReader $ isIPv4Address
+  , toInputReader $ avoidObstacles
   ]
 
 main :: IO ()
 main = do
   pbl <- promptInt "Choose a problem:"
-  -- TODO: Check index in bounds
-  input <- promptLine "Insert your input:"
-  -- TODO: Handle read no parse errors
-  putStrLn $ problems !! (pbl - 1) $ input
+  if pbl - 1 >= 0 && pbl <= length problems
+    then promptLine "Insert your input:" >>=
+         putStrLn .
+         fromMaybe "Could not parse input value" . (problems !! (pbl - 1))
+    else return ()
   main
 
 always :: p1 -> p2 -> p1
