@@ -4,19 +4,24 @@ import DarkWilderness
 import Data.Maybe
 import DivingDeeper
 import EdgeOfTheOcean
+import EruptionOfLight
 import ExploringTheWaters
 import Intro
 import IslandOfKnowledge
+import RainbowOfClarity
 import RainsOfReason
 import SmoothSailing
 import Text.Read
 import ThroughTheFog
 
+uncurry3 :: (t1 -> t2 -> t3 -> t4) -> (t1, t2, t3) -> t4
+uncurry3 f = \(a, b, c) -> f a b c
+
 uncurry4 :: (t1 -> t2 -> t3 -> t4 -> t5) -> (t1, t2, t3, t4) -> t5
 uncurry4 f = \(a, b, c, d) -> f a b c d
 
-uncurry3 :: (t1 -> t2 -> t3 -> t4) -> (t1, t2, t3) -> t4
-uncurry3 f = \(a, b, c) -> f a b c
+uncurry5 :: (t1 -> t2 -> t3 -> t4 -> t5 -> t6) -> (t1, t2, t3, t4, t5) -> t6
+uncurry5 f = \(a, b, c, d, e) -> f a b c d e
 
 toInputReader :: (Read a2, Show a1) => (a2 -> a1) -> String -> Maybe String
 toInputReader f = (>>= Just . show . f) . readMaybe
@@ -60,6 +65,17 @@ problems =
   , toInputReader $ differentSymbolsNaive
   , toInputReader $ uncurry arrayMaxConsecutiveSum
   , toInputReader $ uncurry3 growingPlant
+  , toInputReader $ uncurry5 knapsackLight
+  , toInputReader $ longestDigitsPrefix
+  , toInputReader $ digitDegree
+  , toInputReader $ uncurry bishopAndPawn
+  , toInputReader $ isBeautifulString
+  , toInputReader $ findEmailDomain
+  , toInputReader $ buildPalindrome
+  , toInputReader $ uncurry electionsWinners
+  , toInputReader $ isMAC48Address
+  , toInputReader $ isDigit
+  , toInputReader $ lineEncoding
   ]
 
 main :: IO ()
