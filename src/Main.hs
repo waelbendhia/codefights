@@ -8,6 +8,7 @@ import EruptionOfLight
 import ExploringTheWaters
 import Intro
 import IslandOfKnowledge
+import LandOfLogic
 import RainbowOfClarity
 import RainsOfReason
 import SmoothSailing
@@ -76,6 +77,16 @@ problems =
   , toInputReader $ isMAC48Address
   , toInputReader $ isDigit
   , toInputReader $ lineEncoding
+  , toInputReader $ chessKnight
+  , toInputReader $ deleteDigit
+  , toInputReader $ longestWord
+  , toInputReader $ validTime
+  , toInputReader $ sumUpNumbers
+  , toInputReader $ differentSquares
+  , toInputReader $ digitsProduct
+  , toInputReader $ messageFromBinaryCode
+  , toInputReader $ spiralNumbers
+  , toInputReader $ sudoku
   ]
 
 main :: IO ()

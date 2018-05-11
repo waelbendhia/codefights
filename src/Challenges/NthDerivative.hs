@@ -1,4 +1,4 @@
-module NthDerivative
+module Challenges.NthDerivative
   ( nthDerivative
   ) where
 
